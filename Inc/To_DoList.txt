@@ -1,0 +1,29 @@
+08.11.2016 ToDo:
+0. Zrobienie Gita
+1. Sprawdzic odbior ramki RMC z GPS.
+1a. Obsluga pinów wlacz modem, reset modemu.
+2. obsluga bledw i problem w transmisji GSM i TCP/IP
+2a. zmniejszenie poboru mocy przez modem 
+2. Uruchomic Watchdoga
+3. Uruchomic ADC
+4. Uruchomic sterowanie liniami otworz kufer, wlacz zasilanie
+5. Pomiar naladowania baterii
+
+Flash 		64 KB
+RAM			20 KB
+TIMER		3+1
+SPI			2
+I2C			2
+USART		3
+USB			1
+CAN			1
+GPIO		37
+ADC			2 - 10 channels
+FREQ		72MHz
+VOLTAGE		2-3.6V
+TEMP		-40 to 85
+PACK		LQFP48
+
+
+
+http://www.st.com/content/ccc/resource/technical/document/datasheet/33/d4/6f/1d/df/0b/4c/6d/CD00161566.pdf/files/CD00161566.pdf/jcr:content/translations/en.CD00161566.pdf
