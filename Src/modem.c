@@ -7,13 +7,10 @@
 #include "at_handler.h"
 #include "modem.h"
 
-
-
 /* Private Constants ---------------------------------------------------------*/
 #define MODEM_RETRY_FOREVER     0
 #define MODEM_RESP_OK           0x01
 #define MODEM_RESP_PROMPT       0x02
-#define MODEM_MOBILE_NO         "+917092055390"
 
 /* Private types -------------------------------------------------------------*/
 
@@ -26,20 +23,14 @@ typedef enum
 typedef enum
 {
     MODEM_CMD_NIL = 0,
-    MODEM_CMD_RESET,
-    MODEM_CMD_CMEE,
     MODEM_CMD_ECHO_OFF,
+    MODEM_CMD_GPS_ON,
+    MODEM_CMD_AGPS_ON,
     MODEM_CMD_CCID_REQ,
     MODEM_CMD_CPIN_REQ,
     MODEM_CMD_CPIN_ENTR,
     MODEM_CMD_CREG,
     MODEM_CMD_CSQ,
-    MODEM_CMD_CGATT,
-    MODEM_CMD_CGDCONT,
-    MODEM_CMD_CSTT,
-    MODEM_CMD_CGACT,
-    MODEM_CMD_CIICR,
-    MODEM_CMD_CIFSR,
     MODEM_CMD_DEFAULT,
 }modem_cmd_t;
 
@@ -51,7 +42,6 @@ typedef struct
     uint8_t respFlag;
     uint8_t retryCnt;
     uint32_t timeout;
-    void (*pfn_cmdFrameCb)(void);
     void (*pfn_respCb)(uint8_t*);
     void (*pfn_errorCb)(uint16_t);
     void (*pfn_retryCmpltCb)(void);
@@ -70,8 +60,6 @@ static void MODEM_CmdCPIN_Entr_Error_Cb(uint16_t error);
 
 static void MODEM_CmdCREG_Resp_Cb(uint8_t* p_str);
 static void MODEM_CmdCSQ_Resp_Cb(uint8_t* p_str);
-
-static void MODEM_CmdCIFSR_Resp_Cb(uint8_t* p_str);
 
 static void MODEM_ProcessReceivedData(void);
 //static bool MODEM_PushCmdToPriorityQ(modem_cmd_t cmd);
@@ -92,34 +80,6 @@ swtimer_t MODEM_TimerCmdTimeout;
 swtimer_t MODEM_TimerReadCSQ;
 
 static const modem_cmd_table_t MODEM_CmdTable[] = {
-    
-    {
-        .cmd = MODEM_CMD_RESET, 
-        .p_atStr = (uint8_t*)"ATZ0\r", 
-        .p_respStr = (uint8_t*)NULL, 
-        .respFlag = MODEM_RESP_OK, 
-        .retryCnt = MODEM_RETRY_FOREVER,
-        .timeout = 5000,
-        .pfn_cmdFrameCb = NULL, 
-        .pfn_respCb = NULL, 
-        .pfn_errorCb = NULL,
-        .pfn_retryCmpltCb = NULL,
-        .cmdNext = MODEM_CMD_CMEE
-    },
-    
-    {
-        MODEM_CMD_CMEE, 
-        (uint8_t*)"AT+CMEE=2\r", (uint8_t*)NULL, 
-        MODEM_RESP_OK, 
-        MODEM_RETRY_FOREVER,
-        100,
-        NULL, 
-        NULL, 
-        NULL,
-        NULL,
-        MODEM_CMD_ECHO_OFF
-    },
-    
     {
         MODEM_CMD_ECHO_OFF, 
         (uint8_t*)"ATE0\r", (uint8_t*)NULL, 
@@ -127,11 +87,34 @@ static const modem_cmd_table_t MODEM_CmdTable[] = {
         MODEM_RETRY_FOREVER,
         100,
         NULL, 
+        NULL,
+        NULL,
+       /* MODEM_CMD_CCID_REQ	*/		MODEM_CMD_AGPS_ON
+    },
+  // wlaczenie GPS
+    {
+        MODEM_CMD_GPS_ON, 						// nazwa komenty
+        (uint8_t*)"AT+GPS = 1\r", (uint8_t*)NULL, 		// komenda
+        MODEM_RESP_OK, 				// czy modem odpwie i potwierdzi
+        1,										// ilosc powtórzen
+        100,										// czas oczekiwania po wyslaniu komendy
         NULL, 
         NULL,
         NULL,
-        MODEM_CMD_CCID_REQ
-    },
+        MODEM_CMD_CCID_REQ							// nastepna komenda
+    },    
+    // wlaczenie AGPS
+        {
+        MODEM_CMD_AGPS_ON, 						// nazwa komenty
+        (uint8_t*)"AT+AGPS = 1\r", (uint8_t*)NULL, 		// komenda
+        MODEM_RESP_OK, 				// czy modem odpwie i potwierdzi
+        1,										// ilosc powtórzen
+        100,										// czas oczekiwania po wyslaniu komendy
+        NULL, 
+        NULL,
+        NULL,
+        MODEM_CMD_CCID_REQ							// nastepna komenda
+    },  
     
     {
         MODEM_CMD_CCID_REQ, 
@@ -139,7 +122,6 @@ static const modem_cmd_table_t MODEM_CmdTable[] = {
         MODEM_RESP_OK | MODEM_RESP_PROMPT, 
         3,
         3000,
-        NULL,
         NULL, 
         NULL,
         MODEM_CmdCCIDReq_RetryCmplt_Cb,
@@ -152,7 +134,6 @@ static const modem_cmd_table_t MODEM_CmdTable[] = {
         MODEM_RESP_OK | MODEM_RESP_PROMPT, 
         1,
         500,
-        NULL, 
         MODEM_CmdCPIN_Req_Resp_Cb, 
         NULL,
         NULL,
@@ -166,7 +147,6 @@ static const modem_cmd_table_t MODEM_CmdTable[] = {
         MODEM_RETRY_FOREVER,
         500,
         NULL,
-        NULL, 
         MODEM_CmdCPIN_Entr_Error_Cb,
         NULL,
         MODEM_CMD_CREG
@@ -178,73 +158,7 @@ static const modem_cmd_table_t MODEM_CmdTable[] = {
         MODEM_RESP_OK | MODEM_RESP_PROMPT,
         MODEM_RETRY_FOREVER,
         2000, 
-        NULL, 
         MODEM_CmdCREG_Resp_Cb, 
-        NULL,
-        NULL,
-        MODEM_CMD_CGATT
-    },
-
-    {
-        MODEM_CMD_CGATT, 
-        (uint8_t*)"AT+CGATT?\r", (uint8_t*)"+CGATT:1", 
-        MODEM_RESP_OK | MODEM_RESP_PROMPT,
-        MODEM_RETRY_FOREVER,
-        2000, 
-        NULL, 
-        NULL, 
-        NULL,
-        NULL,
-        MODEM_CMD_CGDCONT
-    },
-    
-    {
-        MODEM_CMD_CGDCONT, 
-        (uint8_t*)"AT+CGDCONT=1,\"IP\",\"imis/internet\"\r", (uint8_t*)NULL, 
-        MODEM_RESP_OK,
-        MODEM_RETRY_FOREVER,
-        2000, 
-        NULL, 
-        NULL, 
-        NULL,
-        NULL,
-        MODEM_CMD_CSTT
-    },
-    
-    {
-        MODEM_CMD_CSTT, 
-        (uint8_t*)"AT+CSTT=\"imis/internet\"\r", (uint8_t*)NULL, 
-        MODEM_RESP_OK,
-        MODEM_RETRY_FOREVER,
-        2000, 
-        NULL, 
-        NULL, 
-        NULL,
-        NULL,
-        MODEM_CMD_CIICR
-    },
-    
-    {
-        MODEM_CMD_CIICR, 
-        (uint8_t*)"AT+CIICR\r", (uint8_t*)NULL, 
-        MODEM_RESP_OK,
-        MODEM_RETRY_FOREVER,
-        2000, 
-        NULL, 
-        NULL, 
-        NULL,
-        NULL,
-        MODEM_CMD_CIFSR
-    },
-    
-    {
-        MODEM_CMD_CIFSR, 
-        (uint8_t*)"AT+CIFSR\r", (uint8_t*)NULL, 
-        MODEM_RESP_OK | MODEM_RESP_PROMPT,
-        MODEM_RETRY_FOREVER,
-        5000, 
-        NULL, 
-        MODEM_CmdCIFSR_Resp_Cb, 
         NULL,
         NULL,
         MODEM_CMD_NIL
@@ -255,8 +169,7 @@ static const modem_cmd_table_t MODEM_CmdTable[] = {
         (uint8_t*)"AT+CSQ\r", (uint8_t*)NULL, 
         MODEM_RESP_OK | MODEM_RESP_PROMPT,
         MODEM_RETRY_FOREVER,
-        3000, 
-        NULL, 
+        10000, 
         MODEM_CmdCSQ_Resp_Cb, 
         NULL,
         NULL,
@@ -272,7 +185,7 @@ void MODEM_Init(void)
 {    
     MODEM_CmdRetryCnt = 0;
     //MODEM_CmdPriorityQTop = -1;
-    MODEM_Cmd = MODEM_CMD_RESET;
+    MODEM_Cmd = MODEM_CMD_ECHO_OFF;
     MODEM_State = MODEM_STATE_GET_CMD;
     MODEM_InitFlag = false;
     
@@ -280,11 +193,11 @@ void MODEM_Init(void)
     // Request Signal quality for every 5secs
     SWTimer_Start(&MODEM_TimerReadCSQ, 5000);
     
-    ATH_Init();
+    AT_HandlerInit();
 }
 
 void MODEM_Job(void)
-{
+ {
     modem_cmd_t cmd;
     
     // Process the modem AT response
@@ -300,7 +213,7 @@ void MODEM_Job(void)
             {
                 if(SWTimer_GetStatus(&MODEM_TimerReadCSQ) == SWTIMER_ELAPSED)
                 {
-                    cmd = MODEM_CMD_CIFSR;
+                    cmd = MODEM_CMD_CSQ;
                     SWTimer_Start(&MODEM_TimerReadCSQ, 5000);
                 }
             }
@@ -321,10 +234,9 @@ void MODEM_Job(void)
             
             if(p_MODEM_CmdTable != NULL)
             {
-                if((SWTimer_GetStatus((&MODEM_TimerCmdTimeout)) == SWTIMER_STOPPED) &&
-                    (ATH_GetTransmitStatus() == true))
+                if(SWTimer_GetStatus((&MODEM_TimerCmdTimeout)) == SWTIMER_STOPPED)
                 {
-                    ATH_Transmit((uint8_t*)p_MODEM_CmdTable->p_atStr, strlen((const char*)p_MODEM_CmdTable->p_atStr));
+                    AT_HandlerTransmit((uint8_t*)p_MODEM_CmdTable->p_atStr, strlen((const char*)p_MODEM_CmdTable->p_atStr));
                     SWTimer_Start(&MODEM_TimerCmdTimeout, p_MODEM_CmdTable->timeout);
                     MODEM_ResponseAwaitFlag = p_MODEM_CmdTable->respFlag;
                 }
@@ -370,7 +282,7 @@ static void MODEM_ProcessReceivedData(void)
     uint16_t i;
     uint16_t error;
     
-    len = ATH_Receive(buff);
+    len = AT_HandlerReceive(buff);
     
     if(len != 0)
     {
@@ -483,17 +395,6 @@ static void MODEM_CmdCREG_Resp_Cb(uint8_t* p_str)
 static void MODEM_CmdCSQ_Resp_Cb(uint8_t* p_str)
 {
     if(strstr((const char*)p_str, (const char*)"+CSQ") != 0)
-    {
-        MODEM_Cmd = p_MODEM_CmdTable->cmdNext;
-        
-        // dont wait for error response if actual response to command is available
-        MODEM_ResponseAwaitFlag &= ~MODEM_RESP_PROMPT;
-    }
-}
-
-static void MODEM_CmdCIFSR_Resp_Cb(uint8_t* p_str)
-{
-    if(strstr((const char*)p_str, (const char*)".") != 0)
     {
         MODEM_Cmd = p_MODEM_CmdTable->cmdNext;
         

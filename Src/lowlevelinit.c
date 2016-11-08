@@ -19,6 +19,9 @@ UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart2_tx;
 
+DMA_HandleTypeDef hdma_usart1_rx;
+DMA_HandleTypeDef hdma_usart1_tx;
+
 uint8_t LED_Array[3];
 
 /* Extern variables ----------------------------------------------------------*/
@@ -183,7 +186,7 @@ static void MX_USART1_UART_Init(void)
 {
 
   huart1.Instance = USART1;
-  huart1.Init.BaudRate = 115200;
+  huart1.Init.BaudRate = 9200;
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
   huart1.Init.Parity = UART_PARITY_NONE;
@@ -331,5 +334,32 @@ void HAL_SYSTICK_Callback(void)
         {
             HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);
         }
+	   
+	   if(LED_Array[LED_GREEN] == LED_OFF)
+        {
+            HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
+        }
+        else if(LED_Array[LED_GREEN] == LED_ON)
+        {
+            HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_SET);
+        }
+        else if(LED_Array[LED_GREEN] == LED_TOGGLE)
+        {
+            HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin);
+        }
+	   
+	  if(LED_Array[LED_BLUE] == LED_OFF)
+        {
+            HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_RESET);
+        }
+        else if(LED_Array[LED_BLUE] == LED_ON)
+        {
+            HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_SET);
+        }
+        else if(LED_Array[LED_BLUE] == LED_TOGGLE)
+        {
+            HAL_GPIO_TogglePin(LED_B_GPIO_Port, LED_B_Pin);
+        }
+	   
     }
 }

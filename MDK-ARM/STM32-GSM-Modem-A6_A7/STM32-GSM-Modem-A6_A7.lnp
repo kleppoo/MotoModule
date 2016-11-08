@@ -8,6 +8,7 @@
 "stm32-gsm-modem-a6_a7\swtimer.o"
 "stm32-gsm-modem-a6_a7\modem.o"
 "stm32-gsm-modem-a6_a7\lowlevelinit.o"
+"stm32-gsm-modem-a6_a7\gps.o"
 "stm32-gsm-modem-a6_a7\stm32f1xx_hal_tim.o"
 "stm32-gsm-modem-a6_a7\stm32f1xx_hal_pwr.o"
 "stm32-gsm-modem-a6_a7\stm32f1xx_hal_uart.o"

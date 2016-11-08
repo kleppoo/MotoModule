@@ -15,10 +15,14 @@
 /* Exported macro ------------------------------------------------------------*/
 
 /* Exported functions --------------------------------------------------------*/
-void ATH_Init(void);
-uint8_t ATH_Transmit(uint8_t* p_inBuff, uint16_t len);
-bool ATH_GetTransmitStatus(void);
-uint16_t ATH_Receive(uint8_t* p_outBuff);
+void AT_HandlerInit(void);
+void GPS_HandlerInit(void);
+uint8_t AT_HandlerTransmit(uint8_t* p_inBuff, uint16_t len);
+uint16_t AT_HandlerReceive(uint8_t* p_outBuff);
+	 
+uint16_t GPS_HandlerReceive(uint8_t* p_outBuff);
+	 
+
      
 /* Private Constants ---------------------------------------------------------*/
 

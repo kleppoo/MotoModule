@@ -31,19 +31,21 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-#include <stdio.h>
-#include <stdbool.h>
+#include "stdio.h"
 #include "stm32f1xx_hal.h"
 #include "lowlevelinit.h"
 #include "swtimer.h"
 #include "at_handler.h"
 #include "modem.h"
+#include "GPS.h"
 
-#define ITM_Port8(n) (*((volatile unsigned char *)(0xE0000000 + 4 * n))) 
+#define ITM_Port8(n) (*((volatile unsigned char *)(0xE0000000+4*n))) 
 
 /* Private variables ---------------------------------------------------------*/
 static volatile uint32_t ExeTimeStamp;
 
+
+volatile struct_GPS	GPS_DATA;
 /* Private function prototypes -----------------------------------------------*/
 
 int fputc(int ch, FILE *f) {
@@ -64,7 +66,7 @@ int main(void)
 
     /* Initialize all configured peripherals */
     LOWLEVEL_Init();
-
+    GPS_Init();			// inicjalizacja DMA USART1 dla GPS
     MODEM_Init();
     
     DWT->CYCCNT = 0; // reset the counter
@@ -74,6 +76,7 @@ int main(void)
     {
         timeStamp = DWT->CYCCNT;
         MODEM_Job();
+	    GPS_Job();
         ExeTimeStamp = DWT->CYCCNT - timeStamp;
     }
 }
