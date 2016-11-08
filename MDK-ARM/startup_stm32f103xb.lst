@@ -496,12 +496,11 @@ ARM Macro Assembler    Page 8
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=stm32-gsm-modem-a6_a7\startup_stm32f103xb.d -ostm32-gsm-modem-a6_a
-7\startup_stm32f103xb.o -IC:\Projekty\uP\PlytkaBazowaDoGSM\STM32-GSM-Modem-A6_A
-7\MDK-ARM\RTE -IC:\Keil_v5v17\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include -IC:\Keil_
-v5v17\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include --predefine="__EVAL SETA
- 1" --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 517" --
-predefine="_RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --list=startup_stm32
-f103xb.lst startup_stm32f103xb.s
+7\startup_stm32f103xb.o -IE:\Git\STM32-GSM-Modem-A6_A7\STM32-GSM-Modem-A6_A7\MD
+K-ARM\RTE -Ig:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.0-Beta4\CMSIS\Include -Ig:\Keil_v
+5\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include --predefine="__MICROLIB SETA
+ 1" --predefine="__UVISION_VERSION SETA 521" --predefine="_RTE_ SETA 1" --prede
+fine="STM32F10X_MD SETA 1" --list=startup_stm32f103xb.lst startup_stm32f103xb.s
 
 
 
@@ -1208,4 +1207,4 @@ Symbol: __main
       At line 152 in file startup_stm32f103xb.s
 Comment: __main used once
 2 symbols
-407 symbols in table
+406 symbols in table

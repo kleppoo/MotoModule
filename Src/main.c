@@ -31,14 +31,15 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-#include "stdio.h"
+#include <stdio.h>
+#include <stdbool.h>
 #include "stm32f1xx_hal.h"
 #include "lowlevelinit.h"
 #include "swtimer.h"
 #include "at_handler.h"
 #include "modem.h"
 
-#define ITM_Port8(n) (*((volatile unsigned char *)(0xE0000000+4*n))) 
+#define ITM_Port8(n) (*((volatile unsigned char *)(0xE0000000 + 4 * n))) 
 
 /* Private variables ---------------------------------------------------------*/
 static volatile uint32_t ExeTimeStamp;

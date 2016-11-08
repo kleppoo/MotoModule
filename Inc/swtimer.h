@@ -20,7 +20,6 @@ extern "C" {
 typedef enum
 {
     SWTIMER_STOPPED = 0,
-    SWTIMER_NOT_RUNNING,
     SWTIMER_RUNNING,
     SWTIMER_ELAPSED,
 }swtimer_status_t;
