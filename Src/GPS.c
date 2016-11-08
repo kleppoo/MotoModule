@@ -42,7 +42,7 @@ void GPS_ProcessReceivedData(void)
 	uint16_t i;
 	uint16_t error;
 	uint8_t * pch;
-	
+	uint8_t u8_conuter= 0;
 	
 	len = GPS_HandlerReceive(buff);
 	
@@ -76,7 +76,7 @@ void GPS_ProcessReceivedData(void)
 				while (pch != NULL)
 				{
 					// funkcja strtok moze zle dzialac bo nie ma w ciagu buff znacznika konca stringu??!!
-					uint8_t u8_conuter= 0;
+
 					pch = (uint8_t *)strtok (NULL,",");
 					u8_conuter++;
 					switch(u8_conuter)
@@ -84,39 +84,39 @@ void GPS_ProcessReceivedData(void)
 //http://www.gpsinformation.org/dale/nmea.htm#RMC
 						case (0):
 						break;
-						case(1):
-							//hhmmss	godzina UTC
-						break;
-						case(2):
-							// A - active v = void
-						break;
-						case(3):
-							// Latitude
-						break;
-						case(4):
-							// N or S
-						break;
-						case(5):
-							//Longitude
-						break;
-						case(6):
-							// E or W
-						break;
-						case(7):
-							//speed over ground in knots
-						break;
-						case(8):
-							// Track angle in degrees True
-						break;
-						case(9):
-							//  ddmmrr	date
-						break;
+						case(1):	//hhmmss	godzina UTC
+							strcpy((char*)GPS_DATA.TIME,(char *)pch);
+							break;
+						case(2):	// A - active v = void
+							GPS_DATA.ACTIVE = *pch;
+							break;
+						case(3):	// Latitude
+							strcpy((char*)GPS_DATA.LATITUDE,(char *)pch);
+							break;
+						case(4):	// N or S
+							GPS_DATA.N_or_S = *pch;
+							break;
+						case(5):	//Longitude
+							strcpy((char*)GPS_DATA.LONGITUDE,(char *)pch);
+							break;
+						case(6):	// E or W
+							GPS_DATA.W_or_E = *pch;
+							break;
+						case(7):	//speed over ground in knots
+							strcpy((char*)GPS_DATA.SPEED,(char *)pch);
+							break;
+						case(8):	// Track angle in degrees True
+							
+							break;
+						case(9):	//  ddmmrr	date
+							strcpy((char*)GPS_DATA.DATE,(char *)pch);
+							break;
 						case(10):
 							// Magnetic Variation
-						break;
+							break;
 						case(11):
 							//check sume
-						break;
+							break;
 						case(12):
 //							return(0);	nie powinno wystapic!!!
 						break;

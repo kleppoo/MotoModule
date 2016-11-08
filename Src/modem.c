@@ -89,7 +89,7 @@ static const modem_cmd_table_t MODEM_CmdTable[] = {
         NULL, 
         NULL,
         NULL,
-       /* MODEM_CMD_CCID_REQ	*/		MODEM_CMD_AGPS_ON
+       /* MODEM_CMD_CCID_REQ	*/		MODEM_CMD_GPS_ON
     },
   // wlaczenie GPS
     {
