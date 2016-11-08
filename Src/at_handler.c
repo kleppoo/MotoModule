@@ -1,4 +1,5 @@
 /* Includes ------------------------------------------------------------------*/
+#include <stdbool.h>
 #include <string.h>
 #include "stm32f1xx_hal.h"
 #include "at_handler.h"
@@ -13,7 +14,7 @@ extern UART_HandleTypeDef huart2;
 
 /* Private function prototypes -----------------------------------------------*/
 
-void AT_HandlerInit(void)
+void ATH_Init(void)
 {
     /* Disable the peripheral */
     __HAL_DMA_DISABLE(huart2.hdmarx);
@@ -38,7 +39,7 @@ void AT_HandlerInit(void)
     AT_RxBuffRdIdx = 0;
 }
 
-uint8_t AT_HandlerTransmit(uint8_t* p_inBuff, uint16_t len)
+uint8_t ATH_Transmit(uint8_t* p_inBuff, uint16_t len)
 {
     uint8_t status;
     
@@ -68,28 +69,35 @@ uint8_t AT_HandlerTransmit(uint8_t* p_inBuff, uint16_t len)
     return status;
 }
 
-uint16_t AT_HandlerReceive(uint8_t* p_outBuff)
+bool ATH_GetTransmitStatus(void)
 {
-    uint8_t state;
+    bool status;
+    
+    // Status by default set to failed
+    status = false;
+
+    if(huart2.hdmatx->Instance->CNDTR == 0)
+    {   
+        status = true;
+    }
+    
+    return status;
+}
+
+uint16_t ATH_Receive(uint8_t* p_outBuff)
+{
     uint16_t rxBuffRdIdxMax;
     uint16_t i;
     uint16_t tempRxBuffRdIdx;
     
-    state = 0;
     i = 0;
     rxBuffRdIdxMax = sizeof(AT_RxBuff) - huart2.hdmarx->Instance->CNDTR;
     tempRxBuffRdIdx = AT_RxBuffRdIdx;
     
     while(AT_RxBuffRdIdx != rxBuffRdIdxMax)
     {
-        if((AT_RxBuff[AT_RxBuffRdIdx] == '\r') && ((state == 0) || (state == 2)))
+        if(AT_RxBuff[AT_RxBuffRdIdx] == '\r')
         {
-            state++;
-        }        
-        else if((AT_RxBuff[AT_RxBuffRdIdx] == '\n') && ((state == 1) || (state == 3)))
-        {
-            state++;
-            
             if(i > 0)
             {
                 if(AT_RxBuffRdIdx == sizeof(AT_RxBuff))
@@ -98,16 +106,16 @@ uint16_t AT_HandlerReceive(uint8_t* p_outBuff)
                 }
                 break;
             }
+        }        
+        else if(AT_RxBuff[AT_RxBuffRdIdx] == '\n')
+        {
+
         }
-        else if(state == 2)
+        else
         {
             *p_outBuff = AT_RxBuff[AT_RxBuffRdIdx];
             p_outBuff++;
             i++;
-        }
-        else
-        {
-            
         }
         
         AT_RxBuffRdIdx++;
