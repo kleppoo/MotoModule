@@ -476,6 +476,11 @@
               <FileType>1</FileType>
               <FilePath>..\Src\GPS.c</FilePath>
             </File>
+            <File>
+              <FileName>To_DoList.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\To_DoList.txt</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

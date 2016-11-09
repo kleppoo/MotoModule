@@ -17,10 +17,12 @@ typedef struct  {
 	uint8_t	VTG[80];
 	uint8_t	GSA[80];
 	
-	uint8_t	TIME[10];		// hh:mm:ss		
+	uint8_t	TIME[16];		// hh:mm:ss		
 	uint8_t	DATE[10];			// 			
-	uint8_t	LONGITUDE[16];		
+	uint8_t	LONGITUDE[16];
+	uint8_t	N_or_S;
 	uint8_t	LATITUDE[16];
+	uint8_t	W_or_E;
 	uint8_t	ACTIVE;				// A - aktywne poz, 	
 	uint8_t	SPEED[10];				//sdj.xx km/h
 	uint8_t	HIGH[10];				// tsdj.xx  wysokosc w metrach

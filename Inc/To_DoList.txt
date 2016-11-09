@@ -1,6 +1,6 @@
 08.11.2016 ToDo:
-0. Zrobienie Gita
-1. Sprawdzic odbior ramki RMC z GPS.
+0. Zrobienie Gita								- Done
+1. Sprawdzic odbior ramki RMC z GPS				- Done
 1a. Obsluga pinów wlacz modem, reset modemu.
 2. obsluga bledw i problem w transmisji GSM i TCP/IP
 2a. zmniejszenie poboru mocy przez modem 

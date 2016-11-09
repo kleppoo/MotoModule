@@ -130,7 +130,7 @@ I (../Inc/swtimer.h)(0x57F8A0A1)
 I (C:\Keil_v5v17\ARM\ARMCC\include\stdbool.h)(0x55DB7FD6)
 I (../Inc/at_handler.h)(0x582093C3)
 I (../Inc/modem.h)(0x58209380)
-I (../Inc/GPS.h)(0x5821170F)
+I (../Inc/GPS.h)(0x58225B9B)
 F (..\Src\at_handler.c)(0x58209089)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Inc --C99-I C:\Projekty\uP\PlytkaBazowaDoGSM\STM32-GSM-Modem-A6_A7_04_11_2016\STM32-GSM-Modem-A6_A7\MDK-ARM\RTE-I C:\Keil_v5v17\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5v17\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o stm32-gsm-modem-a6_a7\at_handler.o --omf_browse stm32-gsm-modem-a6_a7\at_handler.crf --depend stm32-gsm-modem-a6_a7\at_handler.d)
 I (C:\Keil_v5v17\ARM\ARMCC\include\string.h)(0x55DB7FD8)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x57D949B0)
@@ -197,7 +197,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x57D949B1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x57D949B1)
 I (../Inc/swtimer.h)(0x57F8A0A1)
 I (C:\Keil_v5v17\ARM\ARMCC\include\stdbool.h)(0x55DB7FD6)
-F (..\Src\modem.c)(0x58210304)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Inc --C99-I C:\Projekty\uP\PlytkaBazowaDoGSM\STM32-GSM-Modem-A6_A7_04_11_2016\STM32-GSM-Modem-A6_A7\MDK-ARM\RTE-I C:\Keil_v5v17\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5v17\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o stm32-gsm-modem-a6_a7\modem.o --omf_browse stm32-gsm-modem-a6_a7\modem.crf --depend stm32-gsm-modem-a6_a7\modem.d)
+F (..\Src\modem.c)(0x58225612)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Inc --C99-I C:\Projekty\uP\PlytkaBazowaDoGSM\STM32-GSM-Modem-A6_A7_04_11_2016\STM32-GSM-Modem-A6_A7\MDK-ARM\RTE-I C:\Keil_v5v17\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5v17\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o stm32-gsm-modem-a6_a7\modem.o --omf_browse stm32-gsm-modem-a6_a7\modem.crf --depend stm32-gsm-modem-a6_a7\modem.d)
 I (C:\Keil_v5v17\ARM\ARMCC\include\string.h)(0x55DB7FD8)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x57D949B0)
 I (../Inc/stm32f1xx_hal_conf.h)(0x57E61EE5)
@@ -267,7 +267,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x57D949B1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h)(0x57D949B1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x57D949B1)
 I (../Inc/lowlevelinit.h)(0x57EBF5D0)
-F (..\Src\GPS.c)(0x5821A167)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Inc --C99-I C:\Projekty\uP\PlytkaBazowaDoGSM\STM32-GSM-Modem-A6_A7_04_11_2016\STM32-GSM-Modem-A6_A7\MDK-ARM\RTE-I C:\Keil_v5v17\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5v17\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o stm32-gsm-modem-a6_a7\gps.o --omf_browse stm32-gsm-modem-a6_a7\gps.crf --depend stm32-gsm-modem-a6_a7\gps.d)
+F (..\Src\GPS.c)(0x58225ED8)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Inc --C99-I C:\Projekty\uP\PlytkaBazowaDoGSM\STM32-GSM-Modem-A6_A7_04_11_2016\STM32-GSM-Modem-A6_A7\MDK-ARM\RTE-I C:\Keil_v5v17\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5v17\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o stm32-gsm-modem-a6_a7\gps.o --omf_browse stm32-gsm-modem-a6_a7\gps.crf --depend stm32-gsm-modem-a6_a7\gps.d)
 I (C:\Keil_v5v17\ARM\ARMCC\include\string.h)(0x55DB7FD8)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x57D949B0)
 I (../Inc/stm32f1xx_hal_conf.h)(0x57E61EE5)
@@ -304,8 +304,8 @@ I (C:\Keil_v5v17\ARM\ARMCC\include\stdbool.h)(0x55DB7FD6)
 I (../Inc/lowlevelinit.h)(0x57EBF5D0)
 I (../Inc/at_handler.h)(0x582093C3)
 I (../Inc/modem.h)(0x58209380)
-I (../Inc/GPS.h)(0x5821170F)
-F (..\Inc\To_DoList.txt)(0x5821A684)()
+I (../Inc/GPS.h)(0x58225B9B)
+F (..\Inc\To_DoList.txt)(0x582254D5)()
 F (../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c)(0x57D949B1)(-c --cpu Cortex-M3 -D__EVAL -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Inc --C99-I C:\Projekty\uP\PlytkaBazowaDoGSM\STM32-GSM-Modem-A6_A7_04_11_2016\STM32-GSM-Modem-A6_A7\MDK-ARM\RTE-I C:\Keil_v5v17\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5v17\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-D__UVISION_VERSION="517" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o stm32-gsm-modem-a6_a7\stm32f1xx_hal_tim.o --omf_browse stm32-gsm-modem-a6_a7\stm32f1xx_hal_tim.crf --depend stm32-gsm-modem-a6_a7\stm32f1xx_hal_tim.d)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x57D949B0)
 I (../Inc/stm32f1xx_hal_conf.h)(0x57E61EE5)
