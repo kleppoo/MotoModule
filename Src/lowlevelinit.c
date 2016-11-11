@@ -22,6 +22,8 @@ DMA_HandleTypeDef hdma_usart2_tx;
 DMA_HandleTypeDef hdma_usart1_rx;
 DMA_HandleTypeDef hdma_usart1_tx;
 
+IWDG_HandleTypeDef hiwdg;
+
 uint8_t LED_Array[3];
 
 /* Extern variables ----------------------------------------------------------*/
@@ -37,6 +39,7 @@ static void MX_CAN_Init(void);
 static void MX_SPI2_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART3_UART_Init(void);
+static void MX_IWDG_Init(void);
 
 void LOWLEVEL_Init(void)
 {
@@ -51,6 +54,7 @@ void LOWLEVEL_Init(void)
     MX_SPI2_Init();
     MX_USART1_UART_Init();
     MX_USART3_UART_Init();
+    MX_IWDG_Init();
     
     LED_Array[LED_RED] = LED_OFF;
     LED_Array[LED_GREEN] = LED_OFF;
@@ -101,6 +105,22 @@ void SystemClock_Config(void)
 
   /* SysTick_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+}
+
+static void MX_IWDG_Init(void)
+{
+  hiwdg.Instance = IWDG;
+  hiwdg.Init.Prescaler = IWDG_PRESCALER_4;	//IWDG_PRESCALER_4;	//IWDG_PRESCALER_4 -0,4095 sek
+  hiwdg.Init.Reload = 4095;
+  if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  	HAL_IWDG_Start(&hiwdg);
+}
+void Refresh_IWDG(void)
+{
+	HAL_IWDG_Refresh(&hiwdg);
 }
 
 /* ADC1 init function */
@@ -161,7 +181,6 @@ static void MX_CAN_Init(void)
 /* SPI2 init function */
 static void MX_SPI2_Init(void)
 {
-
   hspi2.Instance = SPI2;
   hspi2.Init.Mode = SPI_MODE_MASTER;
   hspi2.Init.Direction = SPI_DIRECTION_2LINES;
@@ -178,7 +197,6 @@ static void MX_SPI2_Init(void)
   {
     Error_Handler();
   }
-
 }
 
 /* USART1 init function */
@@ -222,7 +240,6 @@ static void MX_USART2_UART_Init(void)
 /* USART3 init function */
 static void MX_USART3_UART_Init(void)
 {
-
   huart3.Instance = USART3;
   huart3.Init.BaudRate = 115200;
   huart3.Init.WordLength = UART_WORDLENGTH_8B;
@@ -235,7 +252,6 @@ static void MX_USART3_UART_Init(void)
   {
     Error_Handler();
   }
-
 }
 
 /** 
@@ -263,6 +279,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+	
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, RESET_GSM_Pin|PWR_KEY_Pin, GPIO_PIN_RESET);

@@ -43,30 +43,48 @@
 
 #define RESET_GSM_Pin GPIO_PIN_0
 #define RESET_GSM_GPIO_Port GPIOD
-#define PWR_KEY_Pin GPIO_PIN_0
-#define PWR_KEY_GPIO_Port GPIOA
-//#define PWR_KEY_Pin GPIO_PIN_1
-//#define PWR_KEY_GPIO_Port GPIOD
+
+//#define PWR_KEY_Pin GPIO_PIN_0
+//#define PWR_KEY_GPIO_Port GPIOA
+
+#define PWR_KEY_Pin GPIO_PIN_1
+#define PWR_KEY_GPIO_Port GPIOD
+
 #define ADC_3_Pin GPIO_PIN_7
 #define ADC_3_GPIO_Port GPIOA
+
 #define ADC_1_Pin GPIO_PIN_0
 #define ADC_1_GPIO_Port GPIOB
+
 #define ADC_2_Pin GPIO_PIN_1
 #define ADC_2_GPIO_Port GPIOB
+
 #define SPI2_NSS_Pin GPIO_PIN_12
 #define SPI2_NSS_GPIO_Port GPIOB
+
 #define GPs_RST_Pin GPIO_PIN_8
 #define GPs_RST_GPIO_Port GPIOA
+
 #define GPS_TX_Pin GPIO_PIN_9
 #define GPS_TX_GPIO_Port GPIOA
+
 #define GPS_RX_Pin GPIO_PIN_10
 #define GPS_RX_GPIO_Port GPIOA
+
 #define LED_B_Pin GPIO_PIN_15
 #define LED_B_GPIO_Port GPIOA
+
 #define LED_G_Pin GPIO_PIN_3
 #define LED_G_GPIO_Port GPIOB
+
 #define LED_R_Pin GPIO_PIN_4
 #define LED_R_GPIO_Port GPIOB
+
+#define NPN_1_Pin GPIO_PIN_14
+#define NPN_1_GPIO_Port GPIOC
+
+#define NPN_2_Pin GPIO_PIN_13
+#define NPN_2_GPIO_Port GPIOC
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

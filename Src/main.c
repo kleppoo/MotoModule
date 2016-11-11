@@ -66,6 +66,11 @@ int main(void)
 
     /* Initialize all configured peripherals */
     LOWLEVEL_Init();
+
+	
+
+	
+
     GPS_Init();			// inicjalizacja DMA USART1 dla GPS
     MODEM_Init();
     
@@ -74,6 +79,7 @@ int main(void)
     
     while (1)
     {
+	    Refresh_IWDG();
         timeStamp = DWT->CYCCNT;
         MODEM_Job();
 	    GPS_Job();

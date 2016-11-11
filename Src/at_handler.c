@@ -18,6 +18,7 @@ extern UART_HandleTypeDef huart1;
 
 /* Private function prototypes -----------------------------------------------*/
 
+
 void AT_HandlerInit(void)
 {
     /* Disable the peripheral */
@@ -67,8 +68,6 @@ void GPS_HandlerInit(void)
     
     GPS_RxBuffRdIdx = 0;
 }
-
-
 
 
 

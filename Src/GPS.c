@@ -12,7 +12,6 @@ extern struct_GPS	GPS_DATA;
 void GPS_Job (void)
 {
 	GPS_ProcessReceivedData();
-
 }
 /*
 volatile struct_GPS	GPS_DATA;
@@ -40,7 +39,7 @@ void GPS_ProcessReceivedData(void)
 	uint8_t buff[120];
 	uint16_t len;
 	uint16_t i;
-	uint16_t error;
+//	uint16_t error;
 	uint8_t * pch;
 	uint8_t u8_conuter= 0;
 	

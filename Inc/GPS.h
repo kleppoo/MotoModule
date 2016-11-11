@@ -38,6 +38,8 @@ typedef struct  {
 void GPS_ProcessReceivedData(void);
  
 void GPS_Init(void);
+
+void GPS_Job (void);
      
 /* Private Constants ---------------------------------------------------------*/
 
