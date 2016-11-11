@@ -1,12 +1,12 @@
 08.11.2016 ToDo:
 0. Zrobienie Gita								- Done
 1. Sprawdzic odbior ramki RMC z GPS				- Done
-1a. Obsluga pinów wlacz modem, reset modemu.
+1a. Obsluga pinów wlacz modem, reset modemu.		- Done (nie testowane)
 2. obsluga bledw i problem w transmisji GSM i TCP/IP
 2a. zmniejszenie poboru mocy przez modem 
 2. Uruchomic Watchdoga							- Done (prawie przetestowane)
 3. Uruchomic ADC
-4. Uruchomic sterowanie liniami otworz kufer, wlacz zasilanie
+4. Uruchomic sterowanie liniami otworz kufer, wlacz zasilanie			- Done (nie testowane)
 5. Pomiar naladowania baterii
 
 Flash 		64 KB

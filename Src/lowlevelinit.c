@@ -4,7 +4,17 @@
 #include "lowlevelinit.h"
 
 /* Private types -------------------------------------------------------------*/
+#define NPN_1_LOW 		HAL_GPIO_WritePin(GPIOC, NPN_1_Pin, GPIO_PIN_RESET)
+#define NPN_1_HIGH 		HAL_GPIO_WritePin(GPIOC, NPN_1_Pin, GPIO_PIN_SET)
 
+#define NPN_2_LOW 		HAL_GPIO_WritePin(GPIOC, NPN_2_Pin, GPIO_PIN_RESET)
+#define NPN_2_HIGH 		HAL_GPIO_WritePin(GPIOC, NPN_2_Pin, GPIO_PIN_SET)
+
+#define RESET_GSM_LOW 		HAL_GPIO_WritePin(GPIOD, RESET_GSM_Pin, GPIO_PIN_RESET)
+#define RESET_GSM_HIGH 		HAL_GPIO_WritePin(GPIOD, RESET_GSM_Pin, GPIO_PIN_SET)
+
+#define PWR_KEY_LOW 		HAL_GPIO_WritePin(GPIOD, PWR_KEY_Pin, GPIO_PIN_RESET)
+#define PWR_KEY_HIGH 		HAL_GPIO_WritePin(GPIOD, PWR_KEY_Pin, GPIO_PIN_SET)
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
@@ -45,7 +55,7 @@ void LOWLEVEL_Init(void)
 {
     /* Configure the system clock */
     SystemClock_Config();
-    
+
     MX_GPIO_Init();
     MX_DMA_Init();
     MX_USART2_UART_Init();
@@ -116,6 +126,7 @@ static void MX_IWDG_Init(void)
   {
     Error_Handler();
   }
+
   	HAL_IWDG_Start(&hiwdg);
 }
 void Refresh_IWDG(void)
@@ -279,10 +290,13 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
-	
+  __HAL_RCC_GPIOC_CLK_ENABLE();	
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, RESET_GSM_Pin|PWR_KEY_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */	
+	HAL_GPIO_WritePin(GPIOC, NPN_1_Pin|NPN_2_Pin, GPIO_PIN_RESET);
     
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, SPI2_NSS_Pin|LED_G_Pin|LED_R_Pin, GPIO_PIN_RESET);
@@ -295,6 +309,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+  
+    /*Configure GPIO pins : NPN_1_Pin NPN_2_Pin */
+  GPIO_InitStruct.Pin = NPN_1_Pin|NPN_2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
  
   /*Configure GPIO pins : SPI2_NSS_Pin LED_G_Pin LED_R_Pin */
   GPIO_InitStruct.Pin = SPI2_NSS_Pin|LED_G_Pin|LED_R_Pin;
@@ -330,6 +350,7 @@ void Error_Handler(void)
   {
   }
 }
+
 
 /**
   * @brief  SYSTICK callback.
