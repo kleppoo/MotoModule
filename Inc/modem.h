@@ -17,8 +17,7 @@
 /* Exported functions --------------------------------------------------------*/
 void MODEM_Init(void);
 void MODEM_Job(void);
-void MODEM_SetServerData2(char* p_str);
-void MODEM_SetServerData2(char* p_str);
+	 
      
 /* Private Constants ---------------------------------------------------------*/
 

@@ -31,7 +31,7 @@ enum
 void LOWLEVEL_Init(void);
 void LED_Set(uint8_t led, uint8_t status);
 void Error_Handler(void);
-     
+ void Refresh_IWDG(void);
 /* Private Constants ---------------------------------------------------------*/
 
 /* Private functions ---------------------------------------------------------*/     
