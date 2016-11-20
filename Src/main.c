@@ -31,34 +31,20 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-#include "stdio.h"
+#include <stdio.h>
+#include <stdbool.h>
 #include "stm32f1xx_hal.h"
 #include "lowlevelinit.h"
 #include "swtimer.h"
 #include "at_handler.h"
 #include "modem.h"
-#include "GPS.h"
-
-#define ITM_Port8(n) (*((volatile unsigned char *)(0xE0000000+4*n))) 
 
 /* Private variables ---------------------------------------------------------*/
-static volatile uint32_t ExeTimeStamp;
 
-
-volatile struct_GPS	GPS_DATA;
 /* Private function prototypes -----------------------------------------------*/
-
-int fputc(int ch, FILE *f) {
-    return ITM_SendChar(ch);
-}
 
 int main(void)
 {   
-    volatile unsigned int* SCB_DEMCR = (unsigned int*)0xE000EDFC; //address of the register
-    *SCB_DEMCR = *SCB_DEMCR | 0x01000000;
-
-    uint32_t timeStamp;
-       
     /* MCU Configuration----------------------------------------------------------*/
 
     /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -67,23 +53,11 @@ int main(void)
     /* Initialize all configured peripherals */
     LOWLEVEL_Init();
 
-	
-
-	
-
-    GPS_Init();			// inicjalizacja DMA USART1 dla GPS
     MODEM_Init();
-    
-    DWT->CYCCNT = 0; // reset the counter
-    DWT->CTRL = DWT->CTRL | 0x00000001 ; // enable the counter
     
     while (1)
     {
-	    Refresh_IWDG();
-        timeStamp = DWT->CYCCNT;
         MODEM_Job();
-	    GPS_Job();
-        ExeTimeStamp = DWT->CYCCNT - timeStamp;
     }
 }
 

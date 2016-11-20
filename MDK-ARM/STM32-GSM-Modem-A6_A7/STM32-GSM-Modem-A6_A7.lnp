@@ -8,7 +8,6 @@
 "stm32-gsm-modem-a6_a7\swtimer.o"
 "stm32-gsm-modem-a6_a7\modem.o"
 "stm32-gsm-modem-a6_a7\lowlevelinit.o"
-"stm32-gsm-modem-a6_a7\gps.o"
 "stm32-gsm-modem-a6_a7\stm32f1xx_hal_tim.o"
 "stm32-gsm-modem-a6_a7\stm32f1xx_hal_pwr.o"
 "stm32-gsm-modem-a6_a7\stm32f1xx_hal_uart.o"
@@ -27,7 +26,6 @@
 "stm32-gsm-modem-a6_a7\stm32f1xx_hal_adc.o"
 "stm32-gsm-modem-a6_a7\stm32f1xx_hal_spi.o"
 "stm32-gsm-modem-a6_a7\stm32f1xx_hal_can.o"
-"stm32-gsm-modem-a6_a7\stm32f1xx_hal_iwdg.o"
 --library_type=microlib --strict --scatter "STM32-GSM-Modem-A6_A7\STM32-GSM-Modem-A6_A7.sct"
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
