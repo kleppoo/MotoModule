@@ -4,17 +4,7 @@
 #include "lowlevelinit.h"
 
 /* Private types -------------------------------------------------------------*/
-#define NPN_1_LOW 		HAL_GPIO_WritePin(GPIOC, NPN_1_Pin, GPIO_PIN_RESET)
-#define NPN_1_HIGH 		HAL_GPIO_WritePin(GPIOC, NPN_1_Pin, GPIO_PIN_SET)
 
-#define NPN_2_LOW 		HAL_GPIO_WritePin(GPIOC, NPN_2_Pin, GPIO_PIN_RESET)
-#define NPN_2_HIGH 		HAL_GPIO_WritePin(GPIOC, NPN_2_Pin, GPIO_PIN_SET)
-
-#define RESET_GSM_LOW 		HAL_GPIO_WritePin(GPIOD, RESET_GSM_Pin, GPIO_PIN_RESET)
-#define RESET_GSM_HIGH 		HAL_GPIO_WritePin(GPIOD, RESET_GSM_Pin, GPIO_PIN_SET)
-
-#define PWR_KEY_LOW 		HAL_GPIO_WritePin(GPIOD, PWR_KEY_Pin, GPIO_PIN_RESET)
-#define PWR_KEY_HIGH 		HAL_GPIO_WritePin(GPIOD, PWR_KEY_Pin, GPIO_PIN_SET)
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
@@ -28,11 +18,6 @@ UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart2_tx;
-
-DMA_HandleTypeDef hdma_usart1_rx;
-DMA_HandleTypeDef hdma_usart1_tx;
-
-IWDG_HandleTypeDef hiwdg;
 
 uint8_t LED_Array[3];
 
@@ -49,13 +34,12 @@ static void MX_CAN_Init(void);
 static void MX_SPI2_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART3_UART_Init(void);
-static void MX_IWDG_Init(void);
 
 void LOWLEVEL_Init(void)
 {
     /* Configure the system clock */
     SystemClock_Config();
-
+    
     MX_GPIO_Init();
     MX_DMA_Init();
     MX_USART2_UART_Init();
@@ -64,7 +48,6 @@ void LOWLEVEL_Init(void)
     MX_SPI2_Init();
     MX_USART1_UART_Init();
     MX_USART3_UART_Init();
-    MX_IWDG_Init();
     
     LED_Array[LED_RED] = LED_OFF;
     LED_Array[LED_GREEN] = LED_OFF;
@@ -115,23 +98,6 @@ void SystemClock_Config(void)
 
   /* SysTick_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
-}
-
-static void MX_IWDG_Init(void)
-{
-  hiwdg.Instance = IWDG;
-  hiwdg.Init.Prescaler = IWDG_PRESCALER_4;	//IWDG_PRESCALER_4;	//IWDG_PRESCALER_4 -0,4095 sek
-  hiwdg.Init.Reload = 4095;
-  if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  	HAL_IWDG_Start(&hiwdg);
-}
-void Refresh_IWDG(void)
-{
-	HAL_IWDG_Refresh(&hiwdg);
 }
 
 /* ADC1 init function */
@@ -192,6 +158,7 @@ static void MX_CAN_Init(void)
 /* SPI2 init function */
 static void MX_SPI2_Init(void)
 {
+
   hspi2.Instance = SPI2;
   hspi2.Init.Mode = SPI_MODE_MASTER;
   hspi2.Init.Direction = SPI_DIRECTION_2LINES;
@@ -208,6 +175,7 @@ static void MX_SPI2_Init(void)
   {
     Error_Handler();
   }
+
 }
 
 /* USART1 init function */
@@ -215,7 +183,7 @@ static void MX_USART1_UART_Init(void)
 {
 
   huart1.Instance = USART1;
-  huart1.Init.BaudRate = 9200;
+  huart1.Init.BaudRate = 115200;
   huart1.Init.WordLength = UART_WORDLENGTH_8B;
   huart1.Init.StopBits = UART_STOPBITS_1;
   huart1.Init.Parity = UART_PARITY_NONE;
@@ -251,6 +219,7 @@ static void MX_USART2_UART_Init(void)
 /* USART3 init function */
 static void MX_USART3_UART_Init(void)
 {
+
   huart3.Instance = USART3;
   huart3.Init.BaudRate = 115200;
   huart3.Init.WordLength = UART_WORDLENGTH_8B;
@@ -263,6 +232,7 @@ static void MX_USART3_UART_Init(void)
   {
     Error_Handler();
   }
+
 }
 
 /** 
@@ -290,31 +260,22 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();	
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, RESET_GSM_Pin|PWR_KEY_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */	
-	HAL_GPIO_WritePin(GPIOC, NPN_1_Pin|NPN_2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, GSM_RST_Pin|GSM_PWR_Pin, GPIO_PIN_RESET);
     
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, SPI2_NSS_Pin|LED_G_Pin|LED_R_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPs_RST_Pin|LED_B_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPS_RST_Pin|LED_B_Pin, GPIO_PIN_RESET);
 
+    
   /*Configure GPIO pins : RESET_GSM_Pin PWR_KEY_Pin */
-  GPIO_InitStruct.Pin = RESET_GSM_Pin|PWR_KEY_Pin;
+  GPIO_InitStruct.Pin = GSM_RST_Pin|GSM_PWR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-  
-    /*Configure GPIO pins : NPN_1_Pin NPN_2_Pin */
-  GPIO_InitStruct.Pin = NPN_1_Pin|NPN_2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
  
   /*Configure GPIO pins : SPI2_NSS_Pin LED_G_Pin LED_R_Pin */
   GPIO_InitStruct.Pin = SPI2_NSS_Pin|LED_G_Pin|LED_R_Pin;
@@ -323,7 +284,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : GPs_RST_Pin LED_B_Pin */
-  GPIO_InitStruct.Pin = GPs_RST_Pin|LED_B_Pin;
+  GPIO_InitStruct.Pin = GPS_RST_Pin|LED_B_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -351,7 +312,6 @@ void Error_Handler(void)
   }
 }
 
-
 /**
   * @brief  SYSTICK callback.
   * @retval None
@@ -372,32 +332,5 @@ void HAL_SYSTICK_Callback(void)
         {
             HAL_GPIO_TogglePin(LED_R_GPIO_Port, LED_R_Pin);
         }
-	   
-	   if(LED_Array[LED_GREEN] == LED_OFF)
-        {
-            HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
-        }
-        else if(LED_Array[LED_GREEN] == LED_ON)
-        {
-            HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_SET);
-        }
-        else if(LED_Array[LED_GREEN] == LED_TOGGLE)
-        {
-            HAL_GPIO_TogglePin(LED_G_GPIO_Port, LED_G_Pin);
-        }
-	   
-	  if(LED_Array[LED_BLUE] == LED_OFF)
-        {
-            HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_RESET);
-        }
-        else if(LED_Array[LED_BLUE] == LED_ON)
-        {
-            HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_SET);
-        }
-        else if(LED_Array[LED_BLUE] == LED_TOGGLE)
-        {
-            HAL_GPIO_TogglePin(LED_B_GPIO_Port, LED_B_Pin);
-        }
-	   
     }
 }
